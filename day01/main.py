@@ -1,6 +1,7 @@
 import os
 import sys
 import pathlib
+import time
 
 parent_directory = os.path.abspath('.')
 sys.path.append(parent_directory)
@@ -14,6 +15,7 @@ def solution(input_file):
     lines = helper.read_file_lines(input_file, strip_lines=True)
     result = 0
     for line in lines:
+        number_l, number_r = 0, 0
         for i in range(len(line)):
             try:
                 number_l = int(line[i])
@@ -57,6 +59,8 @@ def match_next_chars(line, index):
 
 if __name__ == '__main__':
     file_directory = pathlib.Path(__file__).parent.absolute()
-    print(solution(file_directory / 'test.txt'))
+    print(helper.benchmark(solution)(file_directory / 'test.txt'))
     print('\n*******************************\n')
-    print(solution(file_directory / 'input.txt'))
+    print(helper.benchmark(solution)(file_directory / 'input.txt'))
+
+
