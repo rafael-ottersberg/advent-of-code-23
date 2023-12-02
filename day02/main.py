@@ -62,8 +62,9 @@ def solution2(input_file):
                     if int(n) > min_color[c]:
                         min_color[c] = int(n)
 
-        
-        res = min_color['red'] * min_color['blue'] * min_color['green']
+        res = 1
+        for c in min_color:
+            res = res * min_color[c]
         result += res
 
     return result
@@ -74,7 +75,9 @@ if __name__ == '__main__':
     print(helper.benchmark(solution)(file_directory / 'test.txt'))
     print('\n*******************************\n')
     print(helper.benchmark(solution)(file_directory / 'input.txt'))
-    print('\n-------------------------------\n')
+
+    print('\n----------------part2----------------\n')
+
     print(helper.benchmark(solution2)(file_directory / 'test.txt'))
     print('\n*******************************\n')
     print(helper.benchmark(solution2)(file_directory / 'input.txt'))
