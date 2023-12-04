@@ -42,7 +42,6 @@ def solution(input_file):
 
     for i, c in enumerate(cards):
         result2 += factors[i]
-        print(factors[i])
         for j in range(len(c)):
             factors[i+j+1] += factors[i]
 
