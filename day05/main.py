@@ -11,8 +11,8 @@ import numpy as np
 import pandas as pd
 
 def solution(input_file):
-    result = 0
     lines = open(input_file, 'r').read().splitlines()
+    result = 0
     for i, line in enumerate(lines):
         pass
 
