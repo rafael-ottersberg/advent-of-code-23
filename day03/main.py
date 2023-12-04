@@ -9,6 +9,7 @@ import helper
 
 import numpy as np
 import pandas as pd
+import re
 
 colors = {
     'red': 12,
@@ -45,9 +46,11 @@ def solution(input_file):
     lines = helper.read_file_lines(input_file, strip_lines=True)
     result = 0
     result2 = 0
+
     numbers = []
     number_id = 1
     position_array = np.zeros((len(lines), len(lines[0])))
+
     for i, line in enumerate(lines):
         for j, c in enumerate(line):
             if c != '*':
@@ -55,17 +58,17 @@ def solution(input_file):
     for i, line in enumerate(lines):
         for j, char in enumerate(line):
             current_nr = ''
-            current_indices = []
+            current_coordinates = []
             if char.isnumeric() and not line[j-1].isnumeric():
                 jn = j
                 while jn < len(line) and line[jn].isnumeric():
-                    current_indices.append((i,jn))
+                    current_coordinates.append((i,jn))
                     current_nr += line[jn]
                     jn += 1
                 
                 current_number = int(current_nr)
 
-                for coor in current_indices:
+                for coor in current_coordinates:
                     k,l = coor
                     if has_neighbour(lines,k,l):
                         result += current_number
@@ -89,7 +92,7 @@ def solution(input_file):
 
                     result2 += n1*n2
 
-    return result2
+    return result, result2
 
 
 def solution2(input_file):

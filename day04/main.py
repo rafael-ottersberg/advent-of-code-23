@@ -10,27 +10,44 @@ import helper
 import numpy as np
 import pandas as pd
 
-colors = {
-    'red': 12,
-    'green': 13,
-    'blue': 14
-}
-
 def solution(input_file):
+    lines = open(input_file, 'r').read().splitlines()
     result = 0
-    lines = helper.read_file_lines(input_file, strip_lines=True)
-    for line in lines:
-        pass
+    cards = []
+    for i, line in enumerate(lines):
+        p1, p2 = line.split(': ')[1].split(' | ')
+        n1, n2 = [], []
+        for n in p1.split(' '):
+            if n != '':
+                n1.append(int(n))
+        for n in p2.split(' '):
+            if n != '':
+                n2.append(int(n))
 
-    return result
+        n1 = set(n1)
+        n2 = set(n2)
+
+        overlap = n1.intersection(n2)
+
+        cards.append(overlap)
+        len_o = len(list(overlap))
+        if len_o > 0:
+            r=0
+            r = 1 * 2**(len_o-1)
+            result += r
 
 
-def solution2(input_file):
-    lines = helper.read_file_lines(input_file, strip_lines=True)
-    result = 0
+    result2 = 0
+    factors = np.ones(len(lines), dtype=np.int64)
+
+    for i, c in enumerate(cards):
+        result2 += factors[i]
+        print(factors[i])
+        for j in range(len(c)):
+            factors[i+j+1] += factors[i]
 
 
-    return result
+    return result, result2
 
 
 if __name__ == '__main__':
