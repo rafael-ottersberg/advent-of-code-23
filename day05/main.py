@@ -6,12 +6,12 @@ parent_directory = os.path.abspath('.')
 sys.path.append(parent_directory)
 
 import helper
-import numpy as np
-
 
 def solution(input_file):
     lines = open(input_file, 'r').read().splitlines()
     result = 0
+
+    seeds = []
     
     sts = {}
     stf = {}
@@ -42,7 +42,7 @@ def solution(input_file):
         maps[map_count][(numbers[1], numbers[1]+numbers[2])] = difference
 
 
-    result = np.inf
+    result = float('inf')
     for seed in seeds:
         a = seed
         for m in maps:
@@ -56,8 +56,8 @@ def solution(input_file):
     return result
 
 def solution2(input_file):
+    seeds = []
     lines = open(input_file, 'r').read().splitlines()
-    result = 0
     
     sts = {}
     stf = {}

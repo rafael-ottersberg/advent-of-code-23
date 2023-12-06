@@ -8,7 +8,6 @@ sys.path.append(parent_directory)
 import helper
 
 import numpy as np
-import pandas as pd
 
 def solution(input_file):
     lines = open(input_file, 'r').read().splitlines()

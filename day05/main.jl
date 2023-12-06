@@ -41,6 +41,7 @@ function p1(filename)
 end
 
 function p2(filename)
+    
     maps = [Dict() for _ in range(1,7)]
 
     seeds = NaN
@@ -70,7 +71,7 @@ function p2(filename)
         a = traverse_map(a, rev_maps)
         for i in range(1, length(seeds))
             if i % 2 == 1
-                if a >= seeds[i] && a < (seeds[i] + seeds[i+1])
+                if seeds[i] <= a < (seeds[i] + seeds[i+1])
                     @goto escape_label
                 end
             end
@@ -92,7 +93,7 @@ end
 @inline function traverse_map(a, reverse_maps)
     for m in reverse_maps
         for k in keys(m)
-            if a >= k[1] && a < k[2]
+            if k[1] <= a < k[2]
                 a += m[k]
                 break
             end
