@@ -7,11 +7,10 @@ parent_directory = os.path.abspath('.')
 sys.path.append(parent_directory)
 
 
-strength = ['A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2']
-strength_2 = ['A', 'K', 'Q', 'T', '9', '8', '7', '6', '5', '4', '3', '2', 'J']
-
-
 def solution(input_file):
+    strength = ['A', 'K', 'Q', 'J', 'T', '9',
+                '8', '7', '6', '5', '4', '3', '2']
+
     result = 0
     lines = open(input_file, 'r').read().splitlines()
     kinds = [[], [], [], [], [], [], []]
@@ -57,6 +56,8 @@ def solution(input_file):
 
 
 def solution2(input_file):
+    strength_2 = ['A', 'K', 'Q', 'T', '9', '8', '7', '6', '5', '4', '3', '2', 'J']
+
     result = 0
     lines = open(input_file, 'r').read().splitlines()
     kinds = [[], [], [], [], [], [], []]
