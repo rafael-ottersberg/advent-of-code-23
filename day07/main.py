@@ -85,21 +85,21 @@ def solution2(input_file):
 
         has_duplicate_jokers = int(joker_count > 1)
 
-        if len(unique) - has_jokers == 5:
+        if len(unique) - has_jokers == 5: # all different
             kinds[0].append((hand_nr, bid))
-        elif len(unique) - has_jokers <= 1:
+        elif len(unique) - has_jokers <= 1: # five of a king
             kinds[6].append((hand_nr, bid))
-        elif len(unique) - has_jokers == 4:
+        elif len(unique) - has_jokers == 4: # one pair
             kinds[1].append((hand_nr, bid))
-        elif len(unique)-has_jokers == 2:
-            if len(dup) - has_duplicate_jokers <= 1:
+        elif len(unique)-has_jokers == 2: # four of a kind and full house
+            if len(dup) - has_duplicate_jokers <= 1: # four of a kind
                 kinds[5].append((hand_nr, bid))
-            else:
+            else: # full house
                 kinds[4].append((hand_nr, bid))
-        elif len(unique)-has_jokers == 3:
-            if len(dup) - has_duplicate_jokers == 2:
+        elif len(unique)-has_jokers == 3: # three of a kind and two pair
+            if len(dup) - has_duplicate_jokers == 2: # two pair
                 kinds[2].append((hand_nr, bid))
-            else:
+            else: # three of a kind
                 kinds[3].append((hand_nr, bid))
 
     count = 1
