@@ -78,12 +78,8 @@ def solution2(input_file):
         diffs.append(found_second_time[k] - found_first_time[k])
 
     print(starts, diffs)
-
-    lcm = 1
-    for i in starts:
-        lcm = lcm*i//math.gcd(lcm, i)
     
-    return lcm
+    return math.lcm(*starts)
 
 
 if __name__ == '__main__':
