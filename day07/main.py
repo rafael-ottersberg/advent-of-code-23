@@ -1,4 +1,3 @@
-import helper
 import os
 import sys
 import pathlib
@@ -6,6 +5,7 @@ import pathlib
 parent_directory = os.path.abspath('.')
 sys.path.append(parent_directory)
 
+import helper
 
 def solution(input_file):
     strength = ['A', 'K', 'Q', 'J', 'T', '9',
@@ -73,17 +73,17 @@ def solution2(input_file):
         dup = set()
 
         joker_count = 0
-        has_jokers = 0
+        
         for h in hand_nr:
             if h == joker:
                 joker_count += 1
-                has_jokers = has_jokers | 1
             if h not in unique:
                 unique.add(h)
             else:
                 dup.add(h)
 
         has_duplicate_jokers = int(joker_count > 1)
+        has_jokers = int(joker_count) > 1
 
         if len(unique) - has_jokers == 5: # all different
             kinds[0].append((hand_nr, bid))
