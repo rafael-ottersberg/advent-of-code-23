@@ -25,7 +25,6 @@ for p in pipes:
 
 
 def solution(input_file):
-    result = 0
     coor = 0
     lines = open(input_file, 'r').read().splitlines()
     for i, line in enumerate(lines):
@@ -40,11 +39,24 @@ def solution(input_file):
     get_char = lambda coor: lines[int(coor.imag)][int(coor.real)]
 
     q = deque()
+    ds = []
     # find first tiles
     for d in [1,-1,1j,-1j]:
         next_pipe = pipes.get(get_char(coor+d))
         if next_pipe is not None and d in next_pipe:
             q.append((coor+d, d, 1))
+            ds.append(d)
+
+    for p in pipes:
+        if -ds[0] in pipes[p] and -ds[1] in pipes[p]:
+            s_tile = p
+            break
+
+    lines2 = []
+    for line in lines:
+        lines2.append(line.replace('S', s_tile))
+
+    get_char2 = lambda coor: lines2[int(coor.imag)][int(coor.real)]
 
     visited = set([coor])
     distances = {coor: 0}
@@ -62,7 +74,7 @@ def solution(input_file):
         distances[c] = dist
 
     tile_count = 0
-    for j, line in enumerate(lines):
+    for j, line in enumerate(lines2):
         for i, tile in enumerate(line):
             if tile in visited:
                 continue
@@ -71,7 +83,7 @@ def solution(input_file):
                 opening = None
                 for ii in range(i, len(line)):
                     coor = ii+j*1j
-                    c = get_char(coor)
+                    c = get_char2(coor)
 
                     if coor not in visited:
                         continue
@@ -84,7 +96,7 @@ def solution(input_file):
                         c_count += 1
 
                     elif opening is not None:
-                        if c in ['J','S'] and opening == 'L':
+                        if c == 'J' and opening == 'L':
                             c_count += 1
                         elif c == '7' and opening == 'F':
                             c_count += 1
@@ -98,22 +110,9 @@ def solution(input_file):
 
     return max_dist, tile_count
 
-def solution2(input_file):
-    result = 0
-    lines = open(input_file, 'r').read().splitlines()
-    for i, line in enumerate(lines):
-        pass
-
-    return result
-
 if __name__ == '__main__':
     file_directory = pathlib.Path(__file__).parent.absolute()
     if 1: # run part 1
         print(helper.benchmark(solution)(file_directory / 'test.txt'))
         print('\n*******************************\n')
         print(helper.benchmark(solution)(file_directory / 'input.txt'))
-    if 0: # run part 2
-        print('\n----------------part2----------------\n')
-        print(helper.benchmark(solution2)(file_directory / 'test.txt'))
-        print('\n*******************************\n')
-        print(helper.benchmark(solution2)(file_directory / 'input.txt'))
