@@ -47,6 +47,7 @@ def solution(input_file):
             q.append((coor+d, d, 1))
             ds.append(d)
 
+    s_tile = ''
     for p in pipes:
         if -ds[0] in pipes[p] and -ds[1] in pipes[p]:
             s_tile = p
