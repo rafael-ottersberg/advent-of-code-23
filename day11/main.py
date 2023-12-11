@@ -21,12 +21,12 @@ def solution(input_file):
 
     ar = set(list(range(len(lines))))
     ac = set(list(range(len(lines[0]))))
-    no_galaxy_r = ar -gr
-    no_galaxy_c = ac- gc
+    no_galaxy_r = ar - gr
+    no_galaxy_c = ac - gc
 
     new_galaxies = galaxies.copy()
 
-    increment  = 999999 # 1 for pt1
+    increment = 999999 # 1 for pt1
 
     for c in no_galaxy_c:
         for i in range(len(galaxies)):
@@ -36,7 +36,6 @@ def solution(input_file):
         for i in range(len(galaxies)):
             if galaxies[i].imag > r:
                 new_galaxies[i] += increment * 1j
-
 
     for g in new_galaxies:
         for g2 in new_galaxies:
