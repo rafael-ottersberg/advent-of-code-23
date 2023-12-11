@@ -19,11 +19,10 @@ def solution(input_file):
                 gr.add(i)
                 gc.add(j)
 
-
     ar = set(list(range(len(lines))))
     ac = set(list(range(len(lines[0]))))
-    no_galaxy_r = ar.difference(gr)
-    no_galaxy_c = ac.difference(gc)
+    no_galaxy_r = ar -gr
+    no_galaxy_c = ac- gc
 
     new_galaxies = galaxies.copy()
 
@@ -32,23 +31,19 @@ def solution(input_file):
     for c in no_galaxy_c:
         for i in range(len(galaxies)):
             if galaxies[i].real > c:
-                new_galaxies[i] = new_galaxies[i] + increment
+                new_galaxies[i] += increment
     for r in no_galaxy_r:
         for i in range(len(galaxies)):
             if galaxies[i].imag > r:
-                new_galaxies[i] = new_galaxies[i] + increment * 1j
+                new_galaxies[i] += increment * 1j
 
-    seen = set()
+
     for g in new_galaxies:
         for g2 in new_galaxies:
-            if (g,g2) in seen or (g2, g) in seen:
-                continue
             dist = g2-g
             result += abs(dist.real) + abs(dist.imag)
 
-            seen.add((g,g2))
-
-    return int(result)
+    return int(result / 2)
 
 if __name__ == '__main__':
     file_directory = pathlib.Path(__file__).parent.absolute()
