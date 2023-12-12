@@ -82,6 +82,11 @@ def search_in_string(numbers, string):
     if (tuple(numbers), string) in cache:
         return cache[(tuple(numbers), string)]
     
+    needed_c = sum(numbers) + len(numbers) - 1
+    if needed_c > len(string):
+        cache[(tuple(numbers), string)] = 0
+        return 0
+    
     possibilities = 0
     if not numbers:
         if '#' not in string:
