@@ -91,18 +91,13 @@ def search_in_string(numbers, string):
     if not numbers:
         if '#' not in string:
             possibilities = 1
-        else:
-            possibilities = 0
 
     else:
         index = int(numbers.index(max(numbers)))
         regex = '(?=((?<!#)[?#]{'+ str(numbers[index]) +'}(?!#)))'
         matches = [match for match in re.finditer(regex, string)]
 
-        #print(f'matches: {len(matches)}')
-
         for match in matches:
-            #print('Match', match.group(1), match.start())
             match_start = match.start()
             ms = match_start
             if ms > 0:
@@ -111,14 +106,10 @@ def search_in_string(numbers, string):
             if me < len(string):
                 me += 1
 
-            #print(f'left rest: {string[:ms]}, right rest: {string[me:]}')
-            #print(f'left nr: {numbers[:index]}, right nr: {numbers[index+1:]}')
-
             p_l = search_in_string(numbers[:index], string[:ms])
             p_r = search_in_string(numbers[index+1:], string[me:])
             possibilities += p_l * p_r
 
-    #print(f'numbers: {numbers} str: {string} poss:{possibilities}')
     cache[(tuple(numbers), string)] = possibilities
     return possibilities
 
