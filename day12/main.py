@@ -8,8 +8,8 @@ sys.path.append(parent_directory)
 
 import helper
 from itertools import product
+from functools import cache
 
-cache = dict()
 def solution(input_file):
     result = 0
     lines = open(input_file, 'r').read().splitlines()
@@ -25,10 +25,8 @@ def solution(input_file):
             elif c == '?':
                 q.append(j)
 
-
-        q_perm = list(product(range(2), repeat=len(q)))
         perm_count = 0
-        for p in q_perm:
+        for p in product(range(2), repeat=len(q)):
             spring = s.copy()
             for i, _p in enumerate(p):
                 if _p:
@@ -71,20 +69,15 @@ def solution2(input_file):
         for _ in range(4):
             spmap_new += f'?{spmap}'
 
-        poss = search_in_string(numbers, spmap_new)
+        poss = search_in_string(tuple(numbers), spmap_new)
         result += poss
 
     return result
 
-
-def search_in_string(numbers, string):
-    global cache
-    if (tuple(numbers), string) in cache:
-        return cache[(tuple(numbers), string)]
-    
+@cache
+def search_in_string(numbers, string):    
     needed_c = sum(numbers) + len(numbers) - 1
     if needed_c > len(string):
-        cache[(tuple(numbers), string)] = 0
         return 0
     
     possibilities = 0
@@ -109,14 +102,12 @@ def search_in_string(numbers, string):
             p_l = search_in_string(numbers[:index], string[:ms])
             p_r = search_in_string(numbers[index+1:], string[me:])
             possibilities += p_l * p_r
-
-    cache[(tuple(numbers), string)] = possibilities
     return possibilities
 
 
 if __name__ == '__main__':
     file_directory = pathlib.Path(__file__).parent.absolute()
-    if 0: # run part 1
+    if 1: # run part 1
         print(helper.benchmark(solution)(file_directory / 'test.txt'))
         print('\n*******************************\n')
         print(helper.benchmark(solution)(file_directory / 'input.txt'))

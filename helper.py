@@ -16,6 +16,6 @@ def benchmark(func):
         result = func(*args, **kwargs)
         end = time.time()
 
-        print(f'Function {func.__name__} took {(end-start)*1000:.2f}ms to complete.')
+        print(f'Function {func.__name__} took {(end-start)*1000:.4f}ms to complete.')
         return result
     return wrapper
