@@ -30,7 +30,6 @@ def solution(input_file):
     return result
 
 def solution2(input_file):
-    result = 0
     lines = open(input_file, 'r').read().splitlines()
     lines = list(zip(*lines))
     stones = []
@@ -48,14 +47,8 @@ def solution2(input_file):
                 result += lines - stone[0].imag
 
         return int(result)
-
-    def full_cycle(stones):
-        print_=False
-        stones = list(stones)        
-        #print('start')
-        #print(sorted(stones, key=lambda x: x[0].real + x[0].imag*1000))
-
-        # north
+    
+    def shift_north(stones):    
         stones = sorted(stones, key=lambda x: x[0].imag)
         last_limits = [0]*len(lines[0])
         new_stones = []
@@ -68,69 +61,25 @@ def solution2(input_file):
                 last_limits[pos] = stone[0].imag + 1
                 new_stones.append(stone)
                 
-        stones = new_stones
-        if print_:
-            print('after north')
-            print(sorted(stones, key=lambda x: x[0].real + x[0].imag*1000))
-        # west
-        stones = sorted(stones, key=lambda x: x[0].real)
-        last_limits = [0]*len(lines[0])
-        new_stones = []
-        for stone in stones:
-            pos = int(stone[0].imag)
-            if stone[1]:
-                new_stones.append((complex(last_limits[pos], pos), 1))
-                last_limits[pos] += 1
-            else:
-                last_limits[pos] = stone[0].real + 1
-                new_stones.append(stone)
+        return new_stones
+    
+    def rotate(stones, grid_size):
+        return [(complex(grid_size - stone[0].imag - 1, stone[0].real), stone[1]) for stone in stones]
 
-        stones = new_stones
-        if print_:
-            print('after west')
-            print(sorted(stones, key=lambda x: x[0].real + x[0].imag*1000))
-        # south
-        stones = sorted(stones, key=lambda x: x[0].imag)[::-1]
-        last_limits = [len(lines)-1]*len(lines)
-        new_stones = []
-        for stone in stones:
-            pos = int(stone[0].real)
-            if stone[1]:
-                new_stones.append((complex(pos, last_limits[pos]), 1))
-                last_limits[pos] -= 1
-            else:
-                last_limits[pos] = stone[0].imag - 1
-                new_stones.append(stone)
 
-        stones = new_stones
-        if print_:
-            print('after south')
-            print(sorted(stones, key=lambda x: x[0].real + x[0].imag*1000))
-        # east
-        stones = sorted(stones, key=lambda x: x[0].real)[::-1]
-        last_limits = [len(lines)-1]*len(lines)
-        new_stones = []
-        for stone in stones:
-            pos = int(stone[0].imag)
-            if stone[1]:
-                new_stones.append((complex(last_limits[pos], pos), 1))
-                last_limits[pos] -= 1
-            else:
-                last_limits[pos] = stone[0].real - 1
-                new_stones.append(stone)
-
-        stones = new_stones
-        if print_:
-            print('after west')
-            print(sorted(stones, key=lambda x: x[0].real + x[0].imag*1000))
+    def full_cycle(stones):
+        stones = list(stones)        
+        for _ in range(4):
+            stones = shift_north(stones)
+            stones = rotate(stones, len(lines))
 
         return tuple(stones)
     
-
+    n = 1000000000
     stones = tuple(stones)
     count = 0
     history = []
-    while count < 1000000000:
+    while count < n:
         if stones in history:
             break
         else:
@@ -141,14 +90,14 @@ def solution2(input_file):
     start = history.index(stones)
     step = count - start
 
-    solution_index = (1000000000 - start) % step + start
+    solution_index = (n - start) % step + start
 
     return eval_rank(history[solution_index], len(lines))
 
 
 if __name__ == '__main__':
     file_directory = pathlib.Path(__file__).parent.absolute()
-    if 0: # run part 1
+    if 1: # run part 1
         print(helper.benchmark(solution)(file_directory / 'test.txt'))
         print('\n*******************************\n')
         print(helper.benchmark(solution)(file_directory / 'input.txt'))
