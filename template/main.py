@@ -7,8 +7,6 @@ sys.path.append(parent_directory)
 
 import helper
 
-import numpy as np
-
 def solution(input_file):
     result = 0
     lines = open(input_file, 'r').read().splitlines()

@@ -19,3 +19,7 @@ def benchmark(func):
         print(f'Function {func.__name__} took {(end-start)*1000:.4f}ms to complete.')
         return result
     return wrapper
+
+
+def transpose(grid):
+    return list(zip(*grid))
