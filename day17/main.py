@@ -36,32 +36,32 @@ def dijkstra(grid):
 
     directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
 
-    # Distance matrix initialized to infinity
     dist = [[float('inf')] * cols for _ in range(rows)]
     dist[rows-1][cols-1] = int(grid[rows-1][cols-1])  # start bottom right
 
-    # Min-heap (priority queue) for selecting node with the smallest distance
-    pq = [(int(grid[rows-1][cols-1]), rows-1, cols-1)]  # (distance, row, col)
+    # Min-heap
+    pq = [(int(grid[rows-1][cols-1]), (cols-1, rows-1))]  # (distance, row, col)
     heapq.heapify(pq)
 
     while pq:
-        curr_dist, r, c = heapq.heappop(pq)
+        curr_dist, coord = heapq.heappop(pq)
+        c, r = coord
 
         # If current distance is already greater than the stored distance, skip
         if curr_dist > dist[r][c]:
             continue
+        
+        # Check all neighbours
+        for dx, dy in directions:
+            next_coord = (coord[0] + dx, coord[1] + dy)
+            nc, nr = next_coord
 
-        # Check neighbors
-        for dr, dc in directions:
-            nr, nc = r + dr, c + dc
-
-            # Check if neighbor is within grid bounds
-            if 0 <= nr < rows and 0 <= nc < cols:
+            if is_on_grid(next_coord):
                 new_dist = curr_dist + int(grid[nr][nc])
-                # If a shorter path to neighbor is found
+                
                 if new_dist < dist[nr][nc]:
                     dist[nr][nc] = new_dist
-                    heapq.heappush(pq, (new_dist, nr, nc))
+                    heapq.heappush(pq, (new_dist, next_coord))
 
     return dist
 
@@ -115,6 +115,7 @@ def solution(input_file):
     goal = (len(grid[0]) - 1 , len(grid) - 1)
 
     distances = dijkstra(grid)
+    print(distances)
 
     distance_walked = 0
 
@@ -218,9 +219,9 @@ if __name__ == '__main__':
     if 1: # run part 1
         print(helper.benchmark(solution)(file_directory / 'test.txt'))
         print('\n*******************************\n')
-        print(helper.benchmark(solution)(file_directory / 'input.txt'))
+        #print(helper.benchmark(solution)(file_directory / 'input.txt'))
     if 1: # run part 2
         print('\n----------------part2----------------\n')
         print(helper.benchmark(solution2)(file_directory / 'test.txt'))
         print('\n*******************************\n')
-        print(helper.benchmark(solution2)(file_directory / 'input.txt'))
+        #print(helper.benchmark(solution2)(file_directory / 'input.txt'))
