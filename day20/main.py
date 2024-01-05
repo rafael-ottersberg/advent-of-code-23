@@ -44,17 +44,16 @@ class FlipFlop:
 
 def solution(input_file):
     start_children = []
-
     flip_flops = {}
     conjunctions = {}
     lines = open(input_file, 'r').read().splitlines()
     for line in lines:
         description, dest = line.split(' -> ')
         destinations = dest.split(', ')
-        if 'broadcaster' in description:
-            for id in destinations:
-                start_children.append(id)
 
+        if 'broadcaster' in description:
+            start_children = destinations
+            continue
         id = description[1:]
         if '%' in description:
             flip_flops[id] = destinations
@@ -102,9 +101,7 @@ def solution(input_file):
     return lowp, highp, lowp*highp
 
 def solution2(input_file):
-
     start_children = []
-
     flip_flops = {}
     conjunctions = {}
 
@@ -115,9 +112,7 @@ def solution2(input_file):
         description, dest = line.split(' -> ')
         destinations = dest.split(', ')
         if 'broadcaster' in description:
-            for id in destinations:
-                start_children.append(id)
-
+            start_children = destinations
         id = description[1:]
         if '%' in description:
             flip_flops[id] = destinations
