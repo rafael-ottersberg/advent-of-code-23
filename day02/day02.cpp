@@ -7,7 +7,6 @@
 #include <algorithm>
 
 #include "util.hpp"
-#include "day02.hpp"
 
 using namespace std;
 
